@@ -43,6 +43,19 @@ class Model_data extends CI_Model {
 //	}	
 
 
+	// public function encryptData($encString){
+	// 	$password = 'c3VtdXRyaXRlbA==';
+	// 	$method = 'aes-256-cbc';
+	// 	$iv = chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0);
+
+	// 	$password = substr(hash('sha256', $password, true), 0, 32);
+		
+
+	// 	return base64_encode(openssl_encrypt($encString, $method, $password, OPENSSL_RAW_DATA, $iv));
+	// }
+
+
+
 	public function data_prospek($level,$username){
 		if($level=='user'){
 			$id['id_user_pic'] = $username;
@@ -1810,10 +1823,26 @@ class Model_data extends CI_Model {
 		// return $result_url;
 		// return $result_url;
 		if($level=='admin'){
-			$q = $result_url;
+			$q = json_decode($result_url);
 		}	
-		return $q;	
+		// foreach ($q as $index=>$res){
+		// $anu = $this->decryptData($q->notelp1);
+			
+		// }	
 
+		return $q;
+
+	}
+
+	public function decryptData($decString){
+		$password = 'c3VtdXRyaXRlbA==';
+		$method = 'aes-256-cbc';
+		$iv = chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0) . chr(0x0);
+
+		$password = substr(hash('sha256', $password, true), 0, 32);
+		
+
+		return openssl_decrypt(base64_decode($decString), $method, $password, OPENSSL_RAW_DATA, $iv);
 	}
 
 	// public function data_pk($level,$username){

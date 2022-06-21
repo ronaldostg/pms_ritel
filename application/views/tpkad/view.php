@@ -144,6 +144,10 @@
 
 				dataType: "json",
 				success: function(data) {
+
+					
+
+					
 					//alert(data.ref);
 					items=data.data;
 					$('#nama').html(items.nama?items.nama:"(Tidak Ada)");
@@ -158,7 +162,7 @@
 					$('#usahaKecamatan').html(items.usahaKecamatan?items.usahaKecamatan:"(Tidak Ada)");
 					$('#usahaDesaKel').html(items.usahaDesaKel?items.usahaDesaKel:"(Tidak Ada)");
 					$('#detailAlamat').html(items.detailAlamat?items.detailAlamat:"(Tidak Ada)");
-					$('#jlhPengajuan').html("Rp. "+items.jlhPengajuan?items.jlhPengajuan:"(Tidak Ada)");
+					$('#jlhPengajuan').html(items.jlhPengajuan ? "Rp. "+items.jlhPengajuan :"(Tidak Ada)");
 					$('#jangkaWaktu').html(items.jangkaWaktu?items.jangkaWaktu:"(Tidak Ada)");
 					$('#jnsUsaha').html(items.jnsUsaha?items.jnsUsaha:"(Tidak Ada)");
 					$('#ketIzinUsaha').html(items.ketIzinUsaha?items.ketIzinUsaha:"(Tidak Ada)");
@@ -169,6 +173,9 @@
 				}
 			});
 	}
+	
+	
+
 
 	function editData(ID) {
 		var cari = ID;
@@ -216,12 +223,12 @@
 		<?php echo $judul;
 		echo " ==> ";
 		echo $nm_cabang; ?>
-		<div class="widget-toolbar no-border pull-right">
+		<!-- <div class="widget-toolbar no-border pull-right">
 			<a href="#modal-table-user" class="btn btn-small btn-info" role="button" data-toggle="modal" name="tambah" id="tambah">
 				<i class="icon-document"></i>
 				Upload User
 			</a>
-		</div>
+		</div> -->
 	</div>
 
 	<table class="table fpTable lcnp table-striped table-bordered table-hover">
@@ -234,14 +241,13 @@
 				<th class="center" width="35">No.Telepon</th>
 				<th class="center" width="35">Jumlah Pengajuan (Rp.)</th>
 				<th class="center" width="10">Action</th>
-
 			</tr>
 		</thead>
 		<tbody>
 			<?php
 			//		$data = $this->model_data->data_prospek();
 			$username = $this->session->userdata('username');
-			$data = json_decode($this->model_data->dataPengajuTpkad("admin", $username));
+			$data = $this->model_data->dataPengajuTpkad("admin", $username);
 			$i = 1;
 
 			// echo json_encode($data->data);
@@ -259,7 +265,7 @@
 						<td class="center"><?php echo $dt->nama ?></td>
 						<td class="center"><?php echo $dt->jenisKelamin ?></td>
 						<td style="text-align: right;"><?php echo $dt->created_at ?></td>
-						<td class="center"><?php echo $dt->notelp1 ?></td>
+						<td class="center"><?php echo $this->model_data->decryptData($dt->notelp1) ?></td>
 						<td style="text-align: right;"><?php echo $dt->jlhPengajuan ?></td>
 						<td>
 							<a onclick="detailKur(<?php echo $dt->id?>)" class="btn btn-primary button-detail" 
@@ -288,7 +294,7 @@
 
 
 
-<div id="modal-table-user" class="modal hide fade" tabindex="-1">
+<!-- <div id="modal-table-user" class="modal hide fade" tabindex="-1">
 	<div class="modal-header no-padding">
 		<div class="table-header">
 			<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -357,129 +363,98 @@
 		</div>
 	</div>
 	</form>
-</div>
+</div> -->
 
 <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">THIS IS A SAMPLE POPUP 2</h4>
+				<h4 class="modal-title" id="myModalLabel">Detail Pengajuan</h4>
 			</div>
 
 			<div class="modal-body">
 
 				<div class="row-fluid form-horizontal">
 
-				<!-- $('#nama').html(items.nama);
-					$('#email').html(items.email);
-					$('#notelp1').html(items.notelp1);
-					$('#notelp2').html(items.notelp2);
-					$("#fotoKTP").attr("src", "data:image/jpg;base64," + items.fotoKTP);
-					$('#jenisKelamin').html(items.jenisKelamin);
-					$('#tgl_lahir').html(items.tgl_lahir);
-					$('#usahaKabupaten').html(items.usahaKabupaten);
-					$('#usahaKecamatan').html(items.usahaKecamatan);
-					$('#usahaDesaKel').html(items.usahaDesaKel);
-					$('#detailAlamat').html(items.detailAlamat);
-					$('#jlhPengajuan').html(items.jlhPengajuan);
-					$('#jangkaWaktu').html(items.jangkaWaktu);
-					$('#jnsUsaha').html(items.jnsUsaha);
-					$('#ketIzinUsaha').html(items.ketIzinUsaha);
-					$('#npwp').html(items.npwp);
-					$('#fotoTempatUsaha').html(items.fotoTempatUsaha); -->
-
+		 
 					<div class="control-group">
-						<!-- <div class="row">
-							<div class="span4">
-
-							
-								<table>
-									<tbody>
-										<tr>
-											<td>Nama</td>
-											<td>:</td>
-											<td>Ronaldo Sitanggang</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div> -->
+					 
 
 						<label class="control-label" for="form-field-1">Nama</label>
 						<div class="controls">
-							<p id="nama"></p>
+							<p id="nama" style="padding-top:0.5em;"></p>
 						</div>
 						<label class="control-label" for="form-field-1">NO. NIK</label>
 						<div class="controls">
 						 
-							<p id="noNIK"></p>
+							<p id="noNIK" style="padding-top:0.5em;"></p>
 						</div>
 						<label class="control-label" for="form-field-1">Foto KTP</label>
 						<div class="controls">
-							<img id="fotoKTP"/>
+							<img id="fotoKTP" style="padding-top:0.5em;"/>
 						 
 						</div>
 						<label class="control-label" for="form-field-1">NPWP</label>
 						<div class="controls">
-							<p id="npwp"></p>
+							<p id="npwp" style="padding-top:0.5em;"></p>
 						</div>
 						<label class="control-label" for="form-field-1">Email</label>
 						<div class="controls">
-							<p id="email"></p>
+							<p id="email" style="padding-top:0.5em;"></p>
 						</div>
 						<label class="control-label" for="form-field-1">No. Telepon 1</label>
 						<div class="controls">
-							<p id="notelp1"></p>
+							<p id="notelp1" style="padding-top:0.5em;"></p>
 						</div>
 						<label class="control-label" for="form-field-1">No. Telepon 2</label>
 						<div class="controls">
-							<p id="notelp2">   </p>
+							<p id="notelp2" style="padding-top:0.5em;">   </p>
 						</div>
 						<label class="control-label" for="form-field-1">Jenis Kelamin</label>
 						<div class="controls">
-							<p id="jenisKelamin"></p>
+							<p id="jenisKelamin" style="padding-top:0.5em;"></p>
 						</div>
 						<label class="control-label" for="form-field-1">Tanggal Lahir</label>
 						<div class="controls">
-							<p id="tgl_lahir"></p>
+							<p id="tgl_lahir" style="padding-top:0.5em;"></p>
 						</div>
 						<label class="control-label" for="form-field-1">Kabupaten</label>
 						<div class="controls">
-							<p id="usahaKabupaten"></p>
+							<p id="usahaKabupaten" style="padding-top:0.5em;"></p>
 						</div>
 						<label class="control-label" for="form-field-1">Kecamatan</label>
 						<div class="controls">
-							<p id="usahaKecamatan"></p>
+							<p id="usahaKecamatan" style="padding-top:0.5em;"></p>
 						</div>
 						<label class="control-label" for="form-field-1">Desa / Kelurahan</label>
 						<div class="controls">
-							<p id="usahaDesaKel"></p>
+							<p id="usahaDesaKel" style="padding-top:0.5em;"></p>
 						</div>
 						<label class="control-label" for="form-field-1">Alamat</label>
 						<div class="controls">
-							<p id="detailAlamat"></p>
+							<p id="detailAlamat" style="padding-top:0.5em;"></p>
 						</div>
 						<label class="control-label" for="form-field-1">Jumlah Pengajuan </label>
 						<div class="controls">
-							<p id="jlhPengajuan"></p>
+							<p id="jlhPengajuan" style="padding-top:0.5em;"></p>
 						</div>
 						<label class="control-label" for="form-field-1">Jangka Waktu </label>
 						<div class="controls">
-							<p id="jangkaWaktu"></p>
+							<p id="jangkaWaktu" style="padding-top:0.5em;"></p>
 						</div>
 						<label class="control-label" for="form-field-1">Keterangan Jenis Usaha</label>
 						<div class="controls">
-							<p id="ketIzinUsaha"></p>
+							<p id="ketIzinUsaha" style="padding-top:0.5em;"></p>
 						 
 						</div>
 						<label class="control-label" for="form-field-1">Jenis Usaha </label>
 						<div class="controls">
-							<p id="jnsUsaha"></p>
+							<p id="jnsUsaha" style="padding-top:0.5em;"></p>
 						</div>
 						<label class="control-label" for="form-field-1">Foto Tempat Usaha</label>
 						<div class="controls">
-							<img id="fotoTempatUsaha"/>
+							<img id="fotoTempatUsaha" style="padding-top:0.5em;"/>
 						 
 						</div>
 						
